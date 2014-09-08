@@ -26,7 +26,9 @@
                         labelAlign: 'left',
                         labelPadding: 5
                     };
-
+                    $scope.redraw = function () {
+                        $scope.$broadcast('charts.redraw');
+                    }
 
                 }]);
 
@@ -65,15 +67,11 @@
             <div class="col-sm-6">
                 <bar-chart chart-data="data"
                            chart-width="chart.width"
-                           chart-height="chart.height">
-                </bar-chart>
-                <bar-chart chart-data="data"
-                           chart-width="chart.width"
                            chart-height="chart.height"
                            bar-gap="chart.barGap"
                            bar-height="chart.barHeight"
                            bar-animate="true"
-                           bar-animate-duration="1s"
+                           bar-animate-duration="0.5s"
                            label="chart.label"
                            label-align="chart.labelAlign"
                            label-padding="chart.labelPadding">
@@ -84,14 +82,16 @@
                     <label class="col-sm-3 control-label">{{ item.key }}</label>
 
                     <div class="col-sm-5">
-                        <input class="form-control" ng-model="item.key" type="text"/>
+                        <input class="form-control" ng-model="item.key" type="text"/><br />
                         <input class="form-control" ng-model="item.value" type="number"/>
                     </div>
 
                 </div>
             </div>
             <div class="col-sm-6">
-                <h3>Chart Properties</h3>
+                <h3>Chart Properties
+                    <button class="btn btn-primary pull-right" ng-click="redraw()">Redraw Charts</button>
+                </h3>
                 <hr>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">chart-width</label>
@@ -164,7 +164,7 @@
                         <input class="form-control col-sm-5" ng-model="chart.labelPadding" type="number"/>&nbsp;
                     </div>
                 </div>
-                {{chart}}
+                {{ chart }}
             </div>
         </form>
     </div>
