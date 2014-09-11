@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/justinwp/angular_svg_charts.svg?branch=master)](https://travis-ci.org/justinwp/angular_svg_charts)
+
 # Angularjs Chart Directives
 
 SVG Chart Directives Built for Angularjs.
