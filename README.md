@@ -1,4 +1,4 @@
-# Angularjs Bar Chart Directive
+# Angularjs Chart Directives
 
 SVG Chart Directives Built for Angularjs.
 
