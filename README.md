@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/justinwp/angular_svg_charts.svg?branch=master)](https://travis-ci.org/justinwp/angular_svg_charts)
+Note: Some issues with travis ci and karma.
 
 # Angularjs Chart Directives
 
