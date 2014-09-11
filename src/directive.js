@@ -387,7 +387,7 @@ angular.module('angularChartSVG', [])
             link: function (scope, elem, attrs) {
                 var dataWatchPromise;
 
-                buildChart(scope, elem);
+//                buildChart(scope, elem);
 
                 scope.$watch('chartData', function (value) {
                     if (dataWatchPromise) {

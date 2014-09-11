@@ -58,8 +58,11 @@ describe('test', function () {
         };
 
         elm = compileDirective(template);
-        expect($(elm).children().children()[0].tagName).toBe('svg');
-        expect($(elm).find('.bars').children().length).toBe($scope.data.length);
+        $timeout( function () {
+            expect($(elm).children().children()[0].tagName).toBe('svg');
+            expect($(elm).find('.bars').children().length).toBe($scope.data.length);
+        }, 500);
+
     });
 
 });
