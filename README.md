@@ -10,6 +10,7 @@ SVG Chart Directives Built for Angularjs.
 ## Requirements
 - Angularjs
 - That's it!
+
 ## Getting Started
 
 ```
