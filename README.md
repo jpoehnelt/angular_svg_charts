@@ -7,6 +7,9 @@ SVG Chart Directives Built for Angularjs.
 - [ ] Line Chart
 - [ ] Pie Chart
 
+## Requirements
+- Angularjs
+- That's it!
 ## Getting Started
 
 ```
