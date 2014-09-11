@@ -5,7 +5,11 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 
+
+    <!--<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+
+
     <script src="../src/directive.js"></script>
     <script>
         var app = angular.module('myApp', ['angularChartSVG'])
@@ -20,15 +24,40 @@
                     $scope.chart = {
                         gap: 3,
                         barHeight: 40,
+                        barValue: function (d) {
+                            return d.value
+                        },
                         width: 300,
-                        height: 300,
+                        height: null,
                         label: true,
+                        labelValue: function (d) {
+                            return d.key + ': ' + String(d.value)
+                        },
                         labelAlign: 'left',
-                        labelPadding: 5
+                        labelPadding: 5,
+                        barColors: ['#b31212', '#12ab12']
+
+
+                    };
+
+                    $scope.chart.events = {
+                        bar: {
+                            'click': function (e, id, row) {
+                                console.log(row);
+                            },
+                            'mouseout': function (e, id, row) {
+                                console.log(row);
+                            }
+                        },
+                        chart: {
+                            'mouseover': function(e) {
+                                console.log('mouse over chart');
+                            }
+                        }
                     };
                     $scope.redraw = function () {
                         $scope.$broadcast('charts.redraw');
-                    }
+                    };
 
                 }]);
 
@@ -46,13 +75,13 @@
         }
 
         .bars rect {
-            fill: #05312d;
             animation-name: fill;
             animation-duration: 3s;
         }
 
         .bars rect:hover {
             stroke: #05312d;
+            stroke-width: 2;
             fill: #262d31;
 
         }
@@ -65,24 +94,17 @@
     <div class="row">
         <form class="form-horizontal">
             <div class="col-sm-6">
-                <bar-chart chart-data="data"
-                           chart-width="chart.width"
-                           chart-height="chart.height"
-                           bar-gap="chart.barGap"
-                           bar-height="chart.barHeight"
-                           bar-animate="true"
-                           bar-animate-duration="0.5s"
-                           label="chart.label"
-                           label-align="chart.labelAlign"
-                           label-padding="chart.labelPadding">
+                <bar-chart chart-data="data">
+
                 </bar-chart>
+
                 <h3>Chart Data</h3>
                 <hr>
                 <div class="form-group" ng-repeat="item in data">
                     <label class="col-sm-3 control-label">{{ item.key }}</label>
 
                     <div class="col-sm-5">
-                        <input class="form-control" ng-model="item.key" type="text"/><br />
+                        <input class="form-control" ng-model="item.key" type="text"/><br/>
                         <input class="form-control" ng-model="item.value" type="number"/>
                     </div>
 

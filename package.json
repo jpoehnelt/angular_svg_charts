@@ -1,0 +1,25 @@
+{
+    "author": "https://github.com/justinwp/angular_svg_charts/graphs/contributors",
+    "name": "angular_svg_charts",
+    "description": "angular_svg_charts - Angular Charts Directive",
+    "version": "0.1.0",
+    "homepage": "https://github.com/justinwp/angular_svg_charts/",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/justinwp/angular_svg_charts"
+    },
+    "keywords": [
+        "angularjs",
+        "svg",
+        "charts",
+        "directive"
+    ],
+    "license": "MIT",
+    "dependencies": {},
+    "devDependencies": {
+        "karma": "latest"
+    },
+    "scripts": {
+        "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS"
+    }
+}
