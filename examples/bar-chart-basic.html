@@ -1,0 +1,100 @@
+<html ng-app="myApp">
+<head>
+    <title>Bar Chart Basic Example</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+
+    <!--<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+
+
+    <script src="../src/directive.js"></script>
+    <script>
+        var app = angular.module('myApp', ['angularChartSVG'])
+                .controller('MainController', ['$scope', function ($scope) {
+                    $scope.data = [
+                        {key: 'Cheese', value: 200},
+                        {key: 'Steak', value: 50},
+                        {key: 'Potatoes', value: 90},
+                        {key: 'Hot Dogs', value: 210},
+                        {key: 'Pizza', value: 90},
+                        {key: 'Shrimp', value: 160},
+                        {key: 'Beer', value: 80},
+                        {key: 'Wine', value: 80}
+                    ];
+
+                }]);
+
+    </script>
+    <style>
+        .labels text {
+            fill: #eee;
+            stroke: #000000;
+            stroke-location: outside;
+            stroke-width: 1;
+            stroke-opacity: 0.1;
+            font-size: 14px;
+            font-weight: 800;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        .bars rect {
+            fill: teal;
+        }
+
+        .bars rect:hover {
+
+            fill: #666666;
+
+        }
+
+        .form-group {
+            margin-top: 0;
+            margin-bottom: 0;
+            font-size: smaller;
+        }
+        .left {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container" ng-controller="MainController">
+    <h1>Basic Bar Chart</h1>
+    <hr>
+    <div class="row">
+        <form class="form-horizontal">
+            <div class="col-sm-6 left">
+                <bar-chart chart-data="data">
+
+                </bar-chart>
+                <h5>HTML</h5>
+                <code>&lt;bar-chart chart-data=&quot;data&quot;&gt;&lt;/bar-chart&gt;</code>
+                <h5>Scope</h5>
+                <code>{{data}}</code>
+            </div>
+            <div class="col-sm-6">
+                <div class="well well-sm">
+                    <div class="form-group" ng-repeat="item in data">
+                        <label class="col-sm-3 control-label">{{ item.key }}</label>
+
+                        <div class="col-sm-4">
+                            <input class="form-control input-sm" ng-model="item.key" type="text"/><br/>
+                        </div>
+                        <div class="col-sm-4">
+                            <input class="form-control input-sm" ng-model="item.value" type="number"/>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

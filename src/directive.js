@@ -45,9 +45,9 @@ angular.module('angularChartSVG', [])
             }
         }
 
-        function intToHexStr(int) {
+        function intToHexStr(h) {
             // return two byte hex string
-            var str = int.toString(16);
+            var str = Math.max(Math.min(255, h), 0).toString(16);
             if (str.length === 1) {
                 str = '0' + str;
             }
@@ -55,15 +55,16 @@ angular.module('angularChartSVG', [])
         }
 
         function buildColorArray(colors, count) {
+            // TODO Fix This
             var r, g, b, rStart, gStart, bStart, colorArray = [];
             if (colors instanceof Array && colors.length === 2) {
                 rStart = parseInt(colors[0].slice(1, 3), 16);
                 gStart = parseInt(colors[0].slice(3, 5), 16);
                 bStart = parseInt(colors[0].slice(5), 16);
 
-                r = Math.round((parseInt(colors[1].slice(1, 3), 16) - rStart) / (count - 1));
-                g = Math.round((parseInt(colors[1].slice(3, 5), 16) - gStart) / (count - 1));
-                b = Math.round((parseInt(colors[1].slice(5), 16) - bStart) / (count - 1));
+                r = Math.round((parseInt(colors[1].slice(1, 3), 16) - rStart) / (count));
+                g = Math.round((parseInt(colors[1].slice(3, 5), 16) - gStart) / (count));
+                b = Math.round((parseInt(colors[1].slice(5), 16) - bStart) / (count));
 
                 for (var i = 0; i < count; i++) {
                     colorArray.push('#' + intToHexStr(rStart + (r * i)) + intToHexStr(gStart + (g * i)) + intToHexStr(bStart + (b * i)));
@@ -71,17 +72,9 @@ angular.module('angularChartSVG', [])
                 }
                 return colorArray;
             }
-        }
-
-        function getColor(colors, i, numBars) {
-            if (colors === undefined || colors[i] === undefined) {
-                return '#312C22';
-            } else if (colors instanceof Array) {
-                return colors[i];
-            } else {
-                return colors;
+            else {
+                return [];
             }
-
         }
 
         function buildChart(scope, elem) {
@@ -115,23 +108,6 @@ angular.module('angularChartSVG', [])
             // Do Some Calculations //
             //////////////////////////
 
-            // Chart Width
-            if (scope.chartWidth === undefined || scope.chartWidth === null) {
-                // try using jquery for more accurate width
-                try {
-                    chartWidthActual = elem.parent().width(); // jquery
-                }
-                catch (e) {
-                    console.log('Warning: bar chart does not account for padding of parent element, ' +
-                        'use jquery for more accurate width or wrap in 100% div')
-                    // doesn't account for padding
-                    chartWidthActual = elem.parent()[0].offsetWidth; // jqlite
-                    // cannot read computed padding using jqlite:
-                    // https://github.com/angular/angular.js/pull/8161 - no plans to include
-                }
-            } else {
-                chartWidthActual = scope.chartWidth;
-            }
 
             // Bar Total Height and Chart Height
             // No bar height set, chart height is set
@@ -216,10 +192,9 @@ angular.module('angularChartSVG', [])
                 }
             }
 
-
             // Create the svg element
             svg = angular.element(document.createElementNS(svgNS, "svg"));
-            svg.attr('width', '100%');
+            svg.attr('width', (scope.chartWidth || '100%'));
             svg.attr('height', chartHeightActual);
 
             // Groupings for Chart Bars and Labels
@@ -237,13 +212,14 @@ angular.module('angularChartSVG', [])
                 var from = 0,
                     to = (getValue(scope.chartData[i], scope.barValue) / barMaxValue * 100).toString() + '%';
                 // Bar
+
                 bar = angular.element(document.createElementNS(svgNS, "rect"));
                 bar.attr('id', 'chart-' + Math.random().toString(36).substring(7) + '-' + i.toString(10))
                 bar.attr('x', from);
                 bar.attr('y', i * barHeightTotal + 1);
                 bar.attr('width', to);
                 bar.attr('height', barHeightTotal - scope.barGap);
-                bar.attr('fill', getColor(colors, i, scope.chartData.length));
+                bar.attr('fill', (colors[i] || 'black'));
 
                 // Bind Bar Events
                 if (barEvents) {
@@ -385,21 +361,24 @@ angular.module('angularChartSVG', [])
                 labelPadding: '=?'
             },
             link: function (scope, elem, attrs) {
-                var dataWatchPromise;
-
-//                buildChart(scope, elem);
+                var redrawPromise;
 
                 scope.$watch('chartData', function (value) {
-                    if (dataWatchPromise) {
-                        $timeout.cancel(dataWatchPromise);
+                    if (redrawPromise) {
+                        $timeout.cancel(redrawPromise);
                     }
-                    dataWatchPromise = $timeout(function () {
+                    redrawPromise = $timeout(function () {
                         buildChart(scope, elem);
                     }, 300);
                 }, true);
 
                 scope.$on('charts.redraw', function (e) {
-                    buildChart(scope, elem);
+                    if (redrawPromise) {
+                        $timeout.cancel(redrawPromise);
+                    }
+                    redrawPromise = $timeout(function () {
+                        buildChart(scope, elem);
+                    }, 300);
                 });
             }
         };

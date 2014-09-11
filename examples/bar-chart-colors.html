@@ -1,0 +1,107 @@
+<html ng-app="myApp">
+<head>
+    <title>Bar Chart Basic Example</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+
+
+    <script src="../src/directive.js"></script>
+    <script>
+        var app = angular.module('myApp', ['angularChartSVG'])
+                .controller('MainController', ['$scope', function ($scope) {
+                    $scope.data = [
+                        {key: 'Cheese', value: 200},
+                        {key: 'Steak', value: 50},
+                        {key: 'Potatoes', value: 90},
+                        {key: 'Hot Dogs', value: 210},
+                        {key: 'Pizza', value: 90},
+                        {key: 'Shrimp', value: 160},
+                        {key: 'Beer', value: 80},
+                        {key: 'Wine', value: 80}
+                    ];
+                    $scope.barColors = ['#123187', '#ff1281'];
+
+                    $scope.redraw = function () {
+                        $('#redrawBtn').blur();
+                        $scope.$broadcast('charts.redraw');
+
+                    };
+                    $scope.$watch('barColors', function () {
+                        $scope.$broadcast('charts.redraw');
+                    }, true)
+
+                }]);
+
+    </script>
+    <style>
+        .labels text {
+            fill: #eee;
+            stroke: #000000;
+            stroke-location: outside;
+            stroke-width: 1;
+            stroke-opacity: 0.1;
+            font-size: 14px;
+            font-weight: 800;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        .bars rect:hover {
+            stroke: #666666;
+
+        }
+
+        .left {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container" ng-controller="MainController">
+    <h1>Bar Chart - Color Gradients</h1>
+    <hr>
+    <div class="row">
+        <div class="col-sm-6 left">
+            <bar-chart chart-data="data" bar-colors="barColors">
+
+            </bar-chart>
+            <h5>HTML</h5>
+            <code>&lt;bar-chart chart-data=&quot;data&quot; bar-colors=&quot;barColors&quot;&gt;&lt;/bar-chart&gt;
+            </code>
+            <h5>Scope.barColors</h5>
+            <code>{{barColors}}</code>
+        </div>
+        <div class="col-sm-6">
+            <div class="well well-sm">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <input class="form-control" ng-model="barColors[0]" type="text"/>
+
+                    </div>
+                    <div class="col-sm-4">
+                        <input class="form-control" ng-model="barColors[1]" type="text"/>
+                    </div>
+                    <div class="col-sm-4">
+                        <button id="redrawBtn" class="btn btn-primary" style="width: 100%;" ng-click="redraw()">
+                            Redraw
+                        </button>
+                    </div>
+                </div>
+                <hr>
+                <p> Use these colors to update the chart. No watch on attributes present in directive but the controller is
+                    firing 'charts.redraw' which the directive is listening for.</p>
+
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,114 @@
+<html ng-app="myApp">
+<head>
+    <title>Bar Chart Basic Example</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+
+
+    <script src="../src/directive.js"></script>
+    <script>
+        var app = angular.module('myApp', ['angularChartSVG'])
+                .controller('MainController', ['$scope', function ($scope) {
+                    $scope.data = [
+                        {key: 'Cheese', value: 200},
+                        {key: 'Steak', value: 50},
+                        {key: 'Potatoes', value: 90},
+                        {key: 'Hot Dogs', value: 210},
+                        {key: 'Pizza', value: 90},
+                        {key: 'Shrimp', value: 160},
+                        {key: 'Beer', value: 80},
+                        {key: 'Wine', value: 80}
+                    ];
+                    $scope.width = 200;
+                    $scope.height = 350;
+                    $scope.redraw = function () {
+                        $('#redrawBtn').blur();
+                        $scope.$broadcast('charts.redraw');
+
+                    };
+
+                }]);
+
+    </script>
+    <style>
+        .labels text {
+            fill: #eee;
+            stroke: #000000;
+            stroke-location: outside;
+            stroke-width: 1;
+            stroke-opacity: 0.1;
+            font-size: 14px;
+            font-weight: 800;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        .bars rect:hover {
+            stroke: #666666;
+
+        }
+
+        .left {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container" ng-controller="MainController">
+    <h1>Bar Chart - Color Gradients</h1>
+    <hr>
+    <div class="row">
+        <div class="col-sm-6 left">
+            <bar-chart chart-data="data" chart-height="height" chart-width="width">
+
+            </bar-chart>
+            <h5>HTML</h5>
+            <code>&lt;bar-chart chart-data=&quot;data&quot; chart-height=&quot;height&quot; chart-width=&quot;width&quot;&gt;&lt;/bar-chart&gt;
+            </code>
+            <h5>Scope.width</h5>
+            <code>{{width}}</code>
+            <h5>Scope.height</h5>
+            <code>{{height}}</code>
+        </div>
+        <div class="col-sm-6">
+            <div class="well well-sm form form-horizontal">
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Width</label>
+
+                    <div class="col-sm-9">
+                        <input class="form-control input-sm" ng-model="width" type="number"/>
+                    </div>
+
+
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Height</label>
+
+                    <div class="col-sm-9">
+                        <input class="form-control input-sm" ng-model="height" type="number"/>
+                    </div>
+
+                </div>
+
+                <div style="text-align: right;">
+                    <button id="redrawBtn" class="btn btn-primary" ng-click="redraw()">
+                        Redraw
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+</div>
+
+</body>
+</html>
