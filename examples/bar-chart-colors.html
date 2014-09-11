@@ -31,9 +31,6 @@
                         $scope.$broadcast('charts.redraw');
 
                     };
-                    $scope.$watch('barColors', function () {
-                        $scope.$broadcast('charts.redraw');
-                    }, true)
 
                 }]);
 
@@ -93,7 +90,7 @@
                 </div>
                 <hr>
                 <p> Use these colors to update the chart. No watch on attributes present in directive but the controller is
-                    firing 'charts.redraw' which the directive is listening for.</p>
+                    firing 'charts.redraw' when the button is clicked.</p>
 
 
             </div>
