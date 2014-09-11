@@ -26,5 +26,5 @@ All other attributes are optional.
 - [Bar Chart - Basic](http://justinwp.github.io/angular_svg_charts/examples/bar-chart-basic.html)
 - [Bar Chart - Colors](http://justinwp.github.io/angular_svg_charts/examples/bar-chart-colors.html)
 - [Bar Chart - Fixed Chart Dimensions](http://justinwp.github.io/angular_svg_charts/examples/bar-chart-fixed.html)
-- [Bar Chart - Fixed Bar Height]()
-- [Bar Chart - Axis]()
+- Bar Chart - Fixed Bar Height
+- Bar Chart - Axis
