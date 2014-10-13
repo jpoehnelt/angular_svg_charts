@@ -4,7 +4,7 @@
 'use strict';
 
 angular.module('angularChartSVG', [])
-    .directive('barChart', function ($window, $timeout) {
+    .directive('barChart', function ($timeout) {
         var defaults = {
             barHeight: 20,
             barGap: 2,
@@ -95,6 +95,9 @@ angular.module('angularChartSVG', [])
                 animate,
                 colors;
 
+            console.log(scope.labelPadding);
+
+
             if (scope.chartData === undefined || scope.chartData.length === 0) {
                 angular.element(elem[0]).html('');
                 return;
@@ -108,6 +111,12 @@ angular.module('angularChartSVG', [])
             // Do Some Calculations //
             //////////////////////////
 
+            // Chart Width
+            if (scope.chartWidth === undefined || scope.chartWidth === null) {
+                chartWidthActual = '100%';
+            } else {
+                chartWidthActual = scope.chartWidth;
+            }
 
             // Bar Total Height and Chart Height
             // No bar height set, chart height is set
@@ -194,7 +203,7 @@ angular.module('angularChartSVG', [])
 
             // Create the svg element
             svg = angular.element(document.createElementNS(svgNS, "svg"));
-            svg.attr('width', (scope.chartWidth || '100%'));
+            svg.attr('width', chartWidthActual);
             svg.attr('height', chartHeightActual);
 
             // Groupings for Chart Bars and Labels
@@ -356,20 +365,20 @@ angular.module('angularChartSVG', [])
                 barAxis: '=?',
                 label: '=?',
                 labelValue: '=?',
-                labelText: '&',
                 labelAlign: '=?',
-                labelPadding: '=?'
+                labelPadding: '@'
             },
             link: function (scope, elem, attrs) {
                 var redrawPromise;
-
+//                buildChart(scope, elem);
+                console.log(scope.labelPadding);
                 scope.$watch('chartData', function (value) {
                     if (redrawPromise) {
                         $timeout.cancel(redrawPromise);
                     }
                     redrawPromise = $timeout(function () {
                         buildChart(scope, elem);
-                    }, 300);
+                    }, 500);
                 }, true);
 
                 scope.$on('charts.redraw', function (e) {
@@ -378,7 +387,7 @@ angular.module('angularChartSVG', [])
                     }
                     redrawPromise = $timeout(function () {
                         buildChart(scope, elem);
-                    }, 300);
+                    }, 500);
                 });
             }
         };

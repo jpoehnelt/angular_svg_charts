@@ -59,9 +59,23 @@ describe('test', function () {
 
         elm = compileDirective(template);
         $timeout( function () {
+//            console.log($(elm).find('.bars').children());
+
             expect($(elm).children().children()[0].tagName).toBe('svg');
             expect($(elm).find('.bars').children().length).toBe($scope.data.length);
         }, 500);
+
+    });
+
+    it('Bar Chart: No Chart Width Specified', function () {
+        var template = {
+            element: '<bar-chart chart-data="data"></bar-chart>',
+            scope: { data: data}
+        };
+
+        elm = compileDirective(template);
+            expect($(elm).children().children()[0].tagName).toBe('svg');
+            expect($(elm).find('.bars').children().length).toBe($scope.data.length);
 
     });
 

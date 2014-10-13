@@ -24,7 +24,7 @@
                         {key: 'Beer', value: 80},
                         {key: 'Wine', value: 80}
                     ];
-
+                    $scope.labelPadding = 5;
                 }]);
 
     </script>
@@ -55,6 +55,7 @@
             margin-bottom: 0;
             font-size: smaller;
         }
+
         .left {
             margin-bottom: 10px;
         }
@@ -67,9 +68,10 @@
     <div class="row">
         <form class="form-horizontal">
             <div class="col-sm-6 left">
-                <bar-chart chart-data="data">
+                <bar-chart chart-data="data" label-padding="labelPadding">
 
                 </bar-chart>
+                {{ labelPadding }}
                 <h5>HTML</h5>
                 <code>&lt;bar-chart chart-data=&quot;data&quot;&gt;&lt;/bar-chart&gt;</code>
                 <h5>Scope</h5>

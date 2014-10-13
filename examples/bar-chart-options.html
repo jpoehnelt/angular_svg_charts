@@ -1,0 +1,186 @@
+<html ng-app="myApp">
+<head>
+    <title>Bar Chart Basic Example</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+
+
+    <script src="../src/directive.js"></script>
+    <script>
+        var app = angular.module('myApp', ['angularChartSVG'])
+                .controller('MainController', ['$scope', function ($scope) {
+                    $scope.data = [
+                        {key: 'Cheese', value: 200},
+                        {key: 'Steak', value: 50},
+                        {key: 'Potatoes', value: 90},
+                        {key: 'Hot Dogs', value: 210},
+                        {key: 'Pizza', value: 90},
+                        {key: 'Shrimp', value: 160},
+                        {key: 'Beer', value: 80},
+                        {key: 'Wine', value: 80}
+                    ];
+                    $scope.chart = {
+                        chartHeight: null,
+                        chartWidth: 300,
+                        barAnimate: true,
+                        barAnimateDuration: 0.5,
+                        barAxis: true,
+                        barGap: 3,
+                        barHeight: 25,
+                        label: true,
+                        labelAlign: 'left',
+                        labelPadding: 5
+                    };
+
+                    $scope.redraw = function () {
+                        $('#redrawBtn').blur();
+                        $scope.$broadcast('charts.redraw');
+
+                    };
+
+                }]);
+
+    </script>
+    <style>
+        .labels text {
+            fill: #eee;
+            stroke: #000000;
+            stroke-location: outside;
+            stroke-width: 1;
+            stroke-opacity: 0.1;
+            font-size: 14px;
+            font-weight: 800;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        .bars rect:hover {
+            stroke: #666666;
+
+        }
+
+        .left {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container" ng-controller="MainController">
+    <h1>Bar Chart - Color Gradients</h1>
+    <hr>
+    <div class="row">
+        <div class="col-sm-6 left">
+            <bar-chart chart-data="data"
+                       chart-height="chart.height"
+                       chart-width="chart.width"
+                       bar-animate="chart.barAnimate"
+                       bar-animate-duration="barAnimateDuration"
+                       bar-axis="chart.barAxis"
+                       bar-gap="chart.barGap"
+                       bar-height="chart.barHeight"
+                       label="chart.label"
+                       label-align="chart.labelAlign"
+                       label-padding="chart.labelPadding"
+                    >
+
+            </bar-chart>
+            <h5>HTML</h5>
+            <code>&lt;bar-chart chart-data=&quot;data&quot; chart-height=&quot;height&quot; chart-width=&quot;width&quot;&gt;&lt;/bar-chart&gt;
+            </code>
+            <h5>Scope.chart</h5>
+            <code>{{chart}}</code>
+        </div>
+        <div class="col-sm-6">
+            <div class="well well-sm form form-horizontal">
+
+                <h3>Chart Properties
+                    <button class="btn btn-primary pull-right" ng-click="redraw()">Redraw Charts</button>
+                </h3>
+                <hr>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">chart-width</label>
+
+                    <div class="col-sm-9 form-inline">
+                        <input class="form-control col-sm-5" ng-model="chart.width" type="number"/>&nbsp;
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">chart-height</label>
+
+                    <div class="col-sm-9 form-inline">
+                        <input class="form-control col-sm-5" ng-model="chart.height" type="number"/>&nbsp;
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">bar-height</label>
+
+                    <div class="col-sm-9 form-inline">
+                        <input class="form-control col-sm-5" ng-model="chart.barHeight" type="number"/>&nbsp;
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">bar-gap</label>
+
+                    <div class="col-sm-9 form-inline">
+                        <input class="form-control col-sm-5" ng-model="chart.barGap" type="number"/>&nbsp;
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">label</label>
+
+                    <div class="col-sm-9 form-inline">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default"
+                                    ng-class="{true: 'btn-primary', false: ''}[chart.label]"
+                                    ng-click="chart.label = !chart.label">true
+                            </button>
+                            <button type="button" class="btn btn-default"
+                                    ng-class="{true: 'btn-primary', false: ''}[!chart.label]"
+                                    ng-click="chart.label = !chart.label">false
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">label-align</label>
+
+                    <div class="col-sm-9 form-inline">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default"
+                                    ng-class="{'left': 'btn-primary', false: ''}[chart.labelAlign]"
+                                    ng-click="chart.labelAlign = 'left'">left
+                            </button>
+                            <button type="button" class="btn btn-default"
+                                    ng-class="{'middle': 'btn-primary', false: ''}[chart.labelAlign]"
+                                    ng-click="chart.labelAlign = 'middle'">middle
+                            </button>
+                            <button type="button" class="btn btn-default"
+                                    ng-class="{'right': 'btn-primary', false: ''}[chart.labelAlign]"
+                                    ng-click="chart.labelAlign = 'right'">right
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">label-padding</label>
+
+                    <div class="col-sm-9 form-inline">
+                        <input class="form-control col-sm-5" ng-model="chart.labelPadding" type="number"/>&nbsp;
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+</div>
+
+</body>
+</html>
